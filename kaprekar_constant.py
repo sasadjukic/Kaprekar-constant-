@@ -1,50 +1,55 @@
 
-#Kaprekar's constant
-number = input("Enter a four digit number with at least two different digits: ")
 
-def sort_list(user_number) -> list:
-    first_array = list(user_number)
-    first_array.sort()
-    if first_array[0] == "0":
-        first_array.pop(0)
+# Kaprekar's constant
 
-    return first_array
+def get_number() -> str:
+    '''
+       Accept string as input to allow inputs with leading zeroes 0310
+       Max of these digits is a valid number 3100
+       Min is a valid number 13 
+    '''
 
-def reverse_list(user_number) -> list:
-    second_array = list(user_number)
-    second_array.sort()
-    second_array.reverse()
-    if second_array[0] == "0":
-        second_array.pop(0)
+    while True:
+        'while loop will check and only accept the correct input'
 
-    return second_array
+        number = input("Enter a four digit number with at least two different digits: ")
+        digits = set(x for x in number)
+        if len(number) == 4 and 4 >= len(digits) >= 2:
+            break
+    
+    return number
 
-def get_lower_number(low_num) -> int:
-    helping_string = ""
-    for num in low_num:
-        helping_string += num
+def lower_number(user_number) -> int:
+    'get the lowest possible number from our four digit string'
 
-    return int(helping_string)
+    lower_number = int(''.join(sorted(user_number)))
+    return lower_number
 
-def get_higher_number(high_num) -> int:
-    helping_string = ""
-    for num in high_num:
-        helping_string += num
+def higher_number(user_number) -> int:
+    'get the highest possible number from our four digit string'
 
-    return int(helping_string)
+    higher_number = int(''.join(sorted(user_number, reverse = True)))
+    return higher_number
 
 def subtract(num_low, num_high) -> str:
+    'subtract two numbers we got from our initial four digit string'
+
     return str(num_high - num_low)
 
-count = 0
-while number != "6174":
-    count += 1
-    first_list = sort_list(number)
-    second_list = reverse_list(number)
-    f_number = get_lower_number(first_list)
-    s_number = get_higher_number(second_list)
-    math = subtract(f_number, s_number)
-    print(f"Routine {count} = {math}")
-    number = math
+def main():
+    'main function with the while loop will repeat until we reach number 6174 in form of a string' 
 
-print(f"\nRoutine is completed. It took {count} attempts to reach Kaprekar's constant of {number}")
+    number = get_number()
+    count = 0
+    while number != "6174":
+        count += 1
+        f_number = lower_number(number)
+        s_number = higher_number(number)
+        math = subtract(f_number, s_number)
+        print(f"Routine {count} = {math}")
+        number = math
+
+    print(f"\nRoutine is completed. It took {count} attempts to reach Kaprekar's constant of {number}")
+
+if __name__ == '__main__':
+    main()
